@@ -60,3 +60,36 @@ self.addEventListener('fetch', function(e) {
     })
   );
 });
+
+/**
+ * basic registration to just mock the notification during the installation/registration (don't know which one for sure :( )
+ */
+self.registration.showNotification('Service Worker Notification', {
+  body:'this is the body',
+  actions: [
+    {action: 'add', title: 'add'},
+    {action: 'rate', title: 'rate'}
+  ]
+});
+
+// in both the notificationclose and notificationclick one usually send the analysis part to the google analytics
+/* event listener to just close the notification during the close notification click  */
+self.addEventListener('notificationclose', event => {
+console.log('notification closed');
+});
+
+/* actions to do once the notification is clicked */
+self.addEventListener('notificationclick', event => {
+  event.notification.close();
+  switch (event.action) {
+    case 'add':
+      console.log('add clicked');
+      break;
+    case 'rate':
+      console.log('rate clicked');
+      break;
+    default:
+      console.log('notification clicked');
+      break;
+  }
+});
